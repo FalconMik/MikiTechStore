@@ -383,7 +383,7 @@ main, .header-inner, .catalog, .hero-inner {
   position: relative;
   z-index: 1;
   flex: none;
-  padding: 8px 14px;
+  padding: 10px 18px;
   border: none;
   background: transparent;
   color: var(--muted);
@@ -396,15 +396,6 @@ main, .header-inner, .catalog, .hero-inner {
 }
 .tab--active { color: var(--bg-deep); }
 
-/* Keep the three main categories fully visible and evenly spaced on phones. */
-.tab:nth-child(2),
-.tab:nth-child(3),
-.tab:nth-child(4) {
-  flex: 1 1 0;
-  min-width: 0;
-  padding-inline: 4px;
-  font-size: 0.76rem;
-}
 
 /* ============ product grid ============ */
 .product-grid {
