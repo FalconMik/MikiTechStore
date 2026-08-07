@@ -132,11 +132,17 @@ main, .header-inner, .catalog, .hero-inner {
 /* cart icon inline in header (hidden on small screens, floating fab takes over) */
 .cart-fab--inline {
   position: relative;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
+}
+.cart-fab--inline svg { width: 20px; height: 20px; }
+
+/* The cart stays in the header; no floating button is needed. */
+.cart-fab--float {
+  display: none;
 }
 
 /* ============ floating cart button ============ */
@@ -622,8 +628,6 @@ main, .header-inner, .catalog, .hero-inner {
   :root { --gutter: 28px; }
   .hero { padding: 72px var(--gutter) 52px; }
   .hero-tagline { font-size: 1.05rem; }
-  .cart-fab--inline { display: flex; }
-  .cart-fab--float { display: none; }
 }
 
 @media (min-width: 860px) {
