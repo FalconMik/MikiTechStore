@@ -97,14 +97,40 @@ window.addEventListener("resize", () => {
   moveIndicator(activeTab);
 });
 
-// Sticky header shrink + tab bar stuck styling
+// Sticky header shrink + tab bar stuck styling.
+// Offsets are measured once (and re-measured on resize) instead of on every
+// scroll tick, and the actual class toggling is batched into a single
+// requestAnimationFrame per tick — this avoids forcing a layout recalculation
+// while the user is scrolling, which is what caused the stutter.
 const header = document.getElementById("siteHeader");
 const tabsNav = document.getElementById("tabs");
+
+let tabsNavStart = 0;
+let headerHeight = 0;
+
+function measureScrollOffsets() {
+  headerHeight = header.offsetHeight || 0;
+  // distance from top of page to the tab bar's natural (non-sticky) position
+  tabsNavStart = tabsNav.offsetTop;
+}
+
+let scrollTicking = false;
+function onScrollFrame() {
+  const y = window.scrollY;
+  header.classList.toggle("site-header--scrolled", y > 12);
+  tabsNav.classList.toggle("tabs--stuck", y + headerHeight >= tabsNavStart);
+  scrollTicking = false;
+}
+
 window.addEventListener("scroll", () => {
-  header.classList.toggle("site-header--scrolled", window.scrollY > 12);
-  const tabsTop = tabsNav.getBoundingClientRect().top;
-  tabsNav.classList.toggle("tabs--stuck", tabsTop <= (header.offsetHeight || 0));
+  if (!scrollTicking) {
+    scrollTicking = true;
+    requestAnimationFrame(onScrollFrame);
+  }
 }, { passive: true });
+
+window.addEventListener("resize", measureScrollOffsets);
+measureScrollOffsets();
 
 // init
 const firstTab = tabs.find(t => t.dataset.cat === activeCategory) || tabs[0];

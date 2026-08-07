@@ -71,7 +71,9 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
-/* subtle film-grain / wall texture overlay, matching the logo's textured wall */
+/* subtle film-grain / wall texture overlay, matching the logo's textured wall.
+   Pre-baked static tile instead of a live SVG turbulence filter — same look,
+   no per-frame recalculation. */
 .grain {
   position: fixed;
   inset: 0;
@@ -79,7 +81,9 @@ a { color: inherit; text-decoration: none; }
   z-index: 2;
   opacity: 0.05;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("../assets/noise.png");
+  background-size: 64px 64px;
+  background-repeat: repeat;
 }
 
 /* ============ layout wrapper ============ */
@@ -96,8 +100,8 @@ main, .header-inner, .catalog, .hero-inner {
   display: flex;
   align-items: center;
   background: rgba(5, 7, 15, 0.55);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
   border-bottom: 1px solid rgba(127, 243, 255, 0.08);
   transition: background 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft);
 }
@@ -117,7 +121,7 @@ main, .header-inner, .catalog, .hero-inner {
 }
 
 .brand { display: flex; align-items: center; }
-.brand-logo { height: 34px; width: auto; filter: drop-shadow(0 0 6px rgba(127, 243, 255, 0.35)); }
+.brand-logo { height: 34px; width: auto; filter: drop-shadow(0 0 6px rgba(127, 243, 255, 0.35)); } /* static — not animated, cheap */
 
 .page-tag {
   font-family: var(--font-display);
@@ -159,12 +163,26 @@ main, .header-inner, .catalog, .hero-inner {
   justify-content: center;
   color: var(--bg-deep);
   background: linear-gradient(145deg, var(--neon-bright), var(--neon-deep));
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 8px 24px rgba(47, 95, 255, 0.45), 0 0 30px rgba(127, 243, 255, 0.35);
-  animation: fab-pulse 3.2s ease-in-out infinite;
+  /* static glow — the pulse now lives on ::after so this box-shadow
+     never has to be recomputed */
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 8px 24px rgba(47, 95, 255, 0.45), 0 0 26px rgba(127, 243, 255, 0.3);
   transition: transform 0.25s var(--ease);
 }
 .cart-fab:active { transform: scale(0.92); }
 .cart-fab svg { width: 24px; height: 24px; }
+
+/* pulsing glow ring behind the button — only opacity/transform animate,
+   so the browser can run this entirely on the compositor */
+.cart-fab::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(127, 243, 255, 0.55), transparent 70%);
+  z-index: -1;
+  animation: fab-pulse 3.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
 
 .cart-fab--bounce { animation: fab-bounce 0.5s var(--ease); }
 
@@ -175,8 +193,8 @@ main, .header-inner, .catalog, .hero-inner {
   100% { transform: scale(1) rotate(0); }
 }
 @keyframes fab-pulse {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 8px 24px rgba(47,95,255,0.45), 0 0 22px rgba(127,243,255,0.28); }
-  50% { box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 8px 28px rgba(47,95,255,0.6), 0 0 40px rgba(127,243,255,0.5); }
+  0%, 100% { opacity: 0.55; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.12); }
 }
 
 .cart-count {
@@ -242,12 +260,36 @@ main, .header-inner, .catalog, .hero-inner {
   max-width: 640px;
 }
 
+.hero-logo-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+/* Blurred glow layer behind the logo. The blur itself is static (computed
+   once); only opacity/transform loop, so the breathing effect runs on the
+   compositor instead of reprocessing the image every frame. */
+.hero-logo-glow {
+  position: absolute;
+  inset: -18%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(47, 95, 255, 0.55), rgba(127, 243, 255, 0.25) 45%, transparent 72%);
+  filter: blur(26px);
+  animation: glow-breathe 4.5s ease-in-out 1.8s infinite;
+  will-change: opacity, transform;
+}
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
 .hero-logo {
   width: min(320px, 78vw);
   height: auto;
-  margin-bottom: 18px;
   filter: drop-shadow(0 0 24px rgba(47, 95, 255, 0.45)) drop-shadow(0 0 48px rgba(127, 243, 255, 0.18));
-  animation: neon-flicker-in 1.8s var(--ease-soft) both, neon-breathe 4.5s ease-in-out 1.8s infinite;
+  animation: neon-flicker-in 1.8s var(--ease-soft) both;
 }
 
 @keyframes neon-flicker-in {
@@ -258,10 +300,6 @@ main, .header-inner, .catalog, .hero-inner {
   18% { opacity: 0.3; }
   24% { opacity: 1; }
   100% { opacity: 1; transform: translateY(0) scale(1); filter: drop-shadow(0 0 24px rgba(47, 95, 255, 0.45)) drop-shadow(0 0 48px rgba(127, 243, 255, 0.18)); }
-}
-@keyframes neon-breathe {
-  0%, 100% { filter: drop-shadow(0 0 22px rgba(47, 95, 255, 0.4)) drop-shadow(0 0 42px rgba(127, 243, 255, 0.16)); }
-  50% { filter: drop-shadow(0 0 30px rgba(47, 95, 255, 0.6)) drop-shadow(0 0 60px rgba(127, 243, 255, 0.3)); }
 }
 
 .hero-tagline {
@@ -314,7 +352,7 @@ main, .header-inner, .catalog, .hero-inner {
   padding: 10px 0 14px;
   background: linear-gradient(180deg, var(--bg-deep) 60%, rgba(5,7,15,0));
 }
-.tabs--stuck { background: rgba(5, 7, 15, 0.92); backdrop-filter: blur(10px); }
+.tabs--stuck { background: rgba(5, 7, 15, 0.92); backdrop-filter: blur(7px); }
 
 .tabs-track {
   position: relative;
@@ -593,8 +631,8 @@ main, .header-inner, .catalog, .hero-inner {
   position: fixed;
   left: 0; right: 0; bottom: 0;
   z-index: 50;
-  background: rgba(8, 12, 24, 0.92);
-  backdrop-filter: blur(16px) saturate(140%);
+  background: rgba(8, 12, 24, 0.94);
+  backdrop-filter: blur(11px) saturate(140%);
   border-top: 1px solid rgba(127, 243, 255, 0.15);
   padding: 14px var(--gutter) calc(14px + env(safe-area-inset-bottom));
   animation: summary-in 0.4s var(--ease-soft) both;
