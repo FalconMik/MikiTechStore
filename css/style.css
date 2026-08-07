@@ -357,10 +357,12 @@ main, .header-inner, .catalog, .hero-inner {
 .tabs-track {
   position: relative;
   display: flex;
-  gap: 6px;
+  gap: 14px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding: 3px;
+  scroll-padding-inline: 10px;
+  scroll-snap-type: x proximity;
+  padding: 4px 10px;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(127, 243, 255, 0.1);
   border-radius: 999px;
@@ -383,13 +385,14 @@ main, .header-inner, .catalog, .hero-inner {
   position: relative;
   z-index: 1;
   flex: none;
-  padding: 10px 18px;
+  padding: 10px 20px;
   border: none;
   background: transparent;
   color: var(--muted);
   font-weight: 600;
   font-size: 0.86rem;
   white-space: nowrap;
+  scroll-snap-align: center;
   border-radius: 999px;
   cursor: pointer;
   transition: color 0.3s var(--ease-soft);
