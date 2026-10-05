@@ -14,6 +14,8 @@ const CURRENCY = "KSh";
 
 const PRODUCTS = [
   // ---------------- SMARTPHONES ----------------
+  // Set brand: "Samsung", "Tecno", or "Redmi" on each real phone to enable brand filtering.
+  // The existing sample phones are unbranded and appear under All types.
   {
     id: "sp-01",
     category: "smartphones",
@@ -48,6 +50,8 @@ const PRODUCTS = [
   },
 
   // ---------------- PROTECTORS ----------------
+  // Set compatibleBrands: ["Samsung", "Tecno"] from verified fit data for brand filtering.
+  // Unassigned protectors remain visible under All brands.
   {
     id: "pr-01",
     category: "protectors",

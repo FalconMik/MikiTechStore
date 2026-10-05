@@ -477,3 +477,8 @@ select,input {
   transition:none!important;
   animation:none!important}
 }
+
+.home-heading h1 {
+  margin: 0;
+  max-width: none;
+}
