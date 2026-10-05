@@ -482,3 +482,38 @@ select,input {
   margin: 0;
   max-width: none;
 }
+
+.model-section { margin: 0 0 26px; }
+.model-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 5px 4px 12px;
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+.model-pill {
+  flex: 0 0 auto;
+  border: 1px solid #d5ddd5;
+  border-radius: 999px;
+  padding: 11px 20px;
+  min-height: 44px;
+  background: white;
+  color: #44534b;
+  font-size: 14px;
+  scroll-snap-align: start;
+}
+.model-pill[aria-pressed="true"] {
+  background: #1769d2;
+  border-color: #1769d2;
+  color: white;
+}
+.model-pill:hover { border-color: #1769d2; }
+.model-status { font-size: 13px; margin: 5px 0 0; }
+.finish-filters { margin-bottom: 26px; }
+.protector-group { margin-bottom: 34px; }
+.finish-heading { font-size: 24px; margin: 0 0 18px; }
+.finish-heading span { font-size: 13px; color: var(--muted); margin-left: 12px; font-weight: normal; }
+body[data-category="protectors"] .card-media { height: 300px; background: #f8f8f5; }
+body[data-category="protectors"] .card-media img { object-fit: contain; }

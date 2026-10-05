@@ -21,6 +21,8 @@ function saveCart(cart) {
 
 function addToCart(productId, qty = 1, phone = "") {
   const cart = getCart();
+  const product = findProduct(productId);
+  if (product && Number.isInteger(product.stock) && (cart[productId] || 0) + qty > product.stock) return;
   const key = phone ? productId + "::" + encodeURIComponent(phone) : productId;
   cart[key] = (cart[key] || 0) + qty;
   saveCart(cart);
@@ -28,6 +30,8 @@ function addToCart(productId, qty = 1, phone = "") {
 
 function setCartQty(productId, qty) {
   const cart = getCart();
+  const product = findProduct(productId);
+  if (product && Number.isInteger(product.stock)) qty = Math.min(qty, product.stock);
   if (qty <= 0) {
     delete cart[productId];
   } else {
@@ -48,7 +52,12 @@ function getCartCount() {
 }
 
 function findProduct(productId) {
-  return PRODUCTS.find(p => p.id === productId.split("::")[0]);
+  const baseId = productId.split("::")[0];
+  if (baseId.startsWith("protector-stock-") && typeof PROTECTOR_INVENTORY !== "undefined") {
+    const row = PROTECTOR_INVENTORY.find(row => "protector-stock-" + row.id === baseId);
+    return row ? protectorVariant(row) : null;
+  }
+  return PRODUCTS.find(p => p.id === baseId);
 }
 
 function getCartLines() {
@@ -57,7 +66,7 @@ function getCartLines() {
     .map(([id, qty]) => {
       const product = findProduct(id);
       if (!product) return null;
-      const phone = id.includes("::") ? decodeURIComponent(id.split("::")[1]) : "";
+      const phone = id.includes("::") ? decodeURIComponent(id.split("::")[1]) : (product.model ? product.brand + " " + product.model : "");
       return { id, product, phone, qty, lineTotal: product.price * qty };
     })
     .filter(Boolean);

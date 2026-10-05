@@ -29,7 +29,7 @@ function renderCart() {
       </div>
       <div class="cart-item-body">
         <h3 class="cart-item-title">${escapeHTML(line.product.title)}</h3>
-        ${line.phone ? `<p class="fit-note">Requested for ${escapeHTML(line.phone)} · Fit to be confirmed</p>` : ""}
+        ${line.phone ? `<p class="fit-note">${escapeHTML(line.phone)}${line.product.model ? "" : " · Fit to be confirmed"}</p>` : ""}
         <span class="cart-item-price">${formatPrice(line.product.price)} each</span>
         <div class="qty-stepper">
           <button class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
@@ -78,7 +78,7 @@ function buildWhatsAppMessage() {
   const lines = getCartLines();
   const header = "Hi Miki Tech Store! I'd like to order:";
   const itemLines = lines.map(
-    (l, i) => `${i + 1}. ${l.product.title}${l.phone ? " (" + l.phone + "; confirm fit)" : ""} x${l.qty} — ${formatPrice(l.lineTotal)}`
+    (l, i) => `${i + 1}. ${l.product.title}${l.phone ? " (" + l.phone + (l.product.model ? ")" : "; confirm fit)") : ""} x${l.qty} — ${formatPrice(l.lineTotal)}`
   );
   const total = `\nTotal: ${formatPrice(getCartTotal())}`;
   return [header, "", ...itemLines, total].join("\n");

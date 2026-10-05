@@ -6,7 +6,7 @@
 <title>MtS · Protectors</title>
 <meta name="description" content="MtS — Choose your phone, then find the protection that suits you. Clear, private, or matte — all in one place.">
 <link rel="icon" href="assets/logo.png">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=5">
 </head>
 <body data-category="protectors">
 <header class="site-header">
@@ -28,7 +28,12 @@
 <span class="count" id="productCount" role="status">
 </span>
 </div>
-<div class="product-grid" id="productGrid">
+<section class="model-section" id="modelSection" aria-label="Phone models" hidden>
+<div class="model-buttons" id="modelButtons"></div>
+<p class="model-status" id="modelStatus" role="status"></p>
+</section>
+<div class="filter-tabs finish-filters" id="finishFilters" aria-label="Protector finish"></div>
+<div class="protector-results" id="productGrid">
 </div>
 <div class="empty-state" id="emptyState" hidden>No matching products.<p>Try another brand or select All brands.</p>
 </div>
@@ -45,11 +50,12 @@
 </footer>
 <script src="js/data.js">
 </script>
+<script src="js/protector-inventory.js?v=1"></script>
 <script src="js/art.js">
 </script>
-<script src="js/cart.js">
+<script src="js/cart.js?v=5">
 </script>
-<script src="js/home.js?v=4">
+<script src="js/protectors.js?v=1">
 </script>
 </body>
 </html>
