@@ -23,12 +23,13 @@ function renderCart() {
   cartSummary.hidden = false;
 
   cartList.innerHTML = lines.map((line, i) => `
-    <div class="cart-item" style="--delay:${i * 60}ms" data-id="${line.product.id}">
+    <div class="cart-item" style="--delay:${i * 60}ms" data-id="${escapeHTML(line.id)}">
       <div class="cart-item-media">
-        <img src="${line.product.image}" alt="${line.product.title}">
+        ${productArt(line.product, true)}
       </div>
       <div class="cart-item-body">
-        <h3 class="cart-item-title">${line.product.title}</h3>
+        <h3 class="cart-item-title">${escapeHTML(line.product.title)}</h3>
+        ${line.phone ? `<p class="fit-note">Requested for ${escapeHTML(line.phone)} · Fit to be confirmed</p>` : ""}
         <span class="cart-item-price">${formatPrice(line.product.price)} each</span>
         <div class="qty-stepper">
           <button class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
@@ -68,11 +69,8 @@ cartList.addEventListener("click", e => {
     setCartQty(id, currentQty - 1);
     renderCart();
   } else if (e.target.closest('[data-action="remove"]')) {
-    itemEl.classList.add("cart-item--removing");
-    setTimeout(() => {
-      removeFromCart(id);
-      renderCart();
-    }, 220);
+    removeFromCart(id);
+    renderCart();
   }
 });
 
@@ -80,7 +78,7 @@ function buildWhatsAppMessage() {
   const lines = getCartLines();
   const header = "Hi Miki Tech Store! I'd like to order:";
   const itemLines = lines.map(
-    (l, i) => `${i + 1}. ${l.product.title} x${l.qty} — ${formatPrice(l.lineTotal)}`
+    (l, i) => `${i + 1}. ${l.product.title}${l.phone ? " (" + l.phone + "; confirm fit)" : ""} x${l.qty} — ${formatPrice(l.lineTotal)}`
   );
   const total = `\nTotal: ${formatPrice(getCartTotal())}`;
   return [header, "", ...itemLines, total].join("\n");

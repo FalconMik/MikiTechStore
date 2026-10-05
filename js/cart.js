@@ -19,9 +19,10 @@ function saveCart(cart) {
   updateCartBadges();
 }
 
-function addToCart(productId, qty = 1) {
+function addToCart(productId, qty = 1, phone = "") {
   const cart = getCart();
-  cart[productId] = (cart[productId] || 0) + qty;
+  const key = phone ? productId + "::" + encodeURIComponent(phone) : productId;
+  cart[key] = (cart[key] || 0) + qty;
   saveCart(cart);
 }
 
@@ -47,7 +48,7 @@ function getCartCount() {
 }
 
 function findProduct(productId) {
-  return PRODUCTS.find(p => p.id === productId);
+  return PRODUCTS.find(p => p.id === productId.split("::")[0]);
 }
 
 function getCartLines() {
@@ -56,7 +57,8 @@ function getCartLines() {
     .map(([id, qty]) => {
       const product = findProduct(id);
       if (!product) return null;
-      return { product, qty, lineTotal: product.price * qty };
+      const phone = id.includes("::") ? decodeURIComponent(id.split("::")[1]) : "";
+      return { id, product, phone, qty, lineTotal: product.price * qty };
     })
     .filter(Boolean);
 }
