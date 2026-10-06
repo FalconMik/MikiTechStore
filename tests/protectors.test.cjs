@@ -20,7 +20,10 @@ function run(code) {return vm.runInContext(code, context);}
 for (const file of ['data.js', 'protector-inventory.js', 'art.js', 'cart.js']) {
   run(fs.readFileSync('js/' + file, 'utf8'));
 }
-assert.equal(run('PROTECTOR_INVENTORY.length'), 0, 'Production must not contain sample stock');
+assert.equal(run('PROTECTOR_INVENTORY.reduce((sum,row)=>sum+row.stock,0)'),27);
+assert.equal(run('PROTECTOR_INVENTORY.find(row=>row.id === "samsung-a53-solid").stock'),2);
+assert.equal(run('protectorModels("Samsung").includes("Galaxy A54")'),true);
+run('PROTECTOR_INVENTORY.splice(0)');
 run(`PROTECTOR_INVENTORY.push(
   {id:'test-a24-matte',brand:'Samsung',model:'Galaxy A24',productId:'ceramic-matte',price:400,stock:2},
   {id:'test-a24-clear',brand:'Samsung',model:'Galaxy A24',productId:'full-cover-glass',price:500,stock:3},
@@ -42,7 +45,7 @@ assert.match(element('modelButtons').innerHTML, /data-model="Galaxy A24" aria-pr
 assert.match(element('productGrid').innerHTML, /Matte Ceramic Full-Cover Film/);
 assert.match(element('productGrid').innerHTML, /Full-Cover Tempered Glass/);
 assert.doesNotMatch(element('productGrid').innerHTML, /Matte Glass Screen Protector/);
-click('finishFilters', {finish:'Matte'});
+element('finishFilters').handlers.change({target:{value:'Matte'}});
 assert.doesNotMatch(element('productGrid').innerHTML, /Full-Cover Temperpered Glass|Full-Cover Tempered Glass/);
 click('productGrid', {sku:'protector-stock-test-a24-matte'});
 run(`addToCart('protector-stock-test-a24-matte'); addToCart('protector-stock-test-a24-matte');`);
@@ -56,7 +59,7 @@ assert.equal(run('selectedFinish'), 'All finishes', 'Changing brand resets finis
 click('modelButtons', {model:'13C'});
 assert.match(element('productGrid').innerHTML, /OK SOLID Tempered Glass/);
 assert.doesNotMatch(element('productGrid').innerHTML, /Ceramic/);
-click('finishFilters', {finish:'Privacy'});
+element('finishFilters').handlers.change({target:{value:'Privacy'}});
 assert.equal(element('emptyState').hidden, false);
 assert.equal(element('productGrid').innerHTML, '');
 click('typeFilters', {brand:'All brands'});

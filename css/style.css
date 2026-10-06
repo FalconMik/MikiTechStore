@@ -517,3 +517,27 @@ select,input {
 .finish-heading span { font-size: 13px; color: var(--muted); margin-left: 12px; font-weight: normal; }
 body[data-category="protectors"] .card-media { height: 300px; background: #f8f8f5; }
 body[data-category="protectors"] .card-media img { object-fit: contain; }
+
+.protector-heading { margin-bottom: 34px; }
+.protector-heading .wordmark { margin-bottom: 22px; }
+.protector-heading h1 { max-width: 850px; margin-bottom: 0; }
+.finish-picker { width: min(280px, 100%); margin-bottom: 28px; }
+.finish-picker label { font-size: 11px; letter-spacing: 1.2px; }
+.finish-picker select { background: white; }
+
+body[data-category="protectors"] .protector-group > .product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 520px) {
+  body[data-category="protectors"] .protector-group > .product-grid { gap: 12px; }
+  body[data-category="protectors"] .card-media { height: 190px; }
+  body[data-category="protectors"] .card-body { padding: 14px; }
+  body[data-category="protectors"] .card-title { font-size: 16px; }
+  body[data-category="protectors"] .card-footer { flex-wrap: wrap; }
+  body[data-category="protectors"] .btn-add { padding: 12px 8px; font-size: 12px; }
+}
+
+/* Match the ceramic pack's displayed width to the other protector packs. */
+body[data-category="protectors"] .card-media img[src*="ceramic-film-matte-studio"] {
+  transform: scaleX(0.92);
+}

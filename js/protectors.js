@@ -22,11 +22,13 @@ function renderModels() {
   modelStatus.textContent = models.length ? selectedModel ? `${selectedBrand} ${selectedModel}` : 'Select your phone model.' : `No available ${selectedBrand} models listed yet.`;
 }
 function renderFinishes() {
-  finishFilters.innerHTML = ['All finishes', ...PROTECTOR_FINISHES].map(finish => `<button class="filter-tab" data-finish="${finish}" aria-pressed="${finish === selectedFinish}">${finish}</button>`).join('');
+  finishFilters.innerHTML = ['All finishes', ...PROTECTOR_FINISHES].map(finish => `<option value="${finish}" ${finish === selectedFinish ? "selected" : ""}>${finish}</option>`).join('');
 }
 function protectorCard(product, variant) {
+  const priced = variant && Number.isFinite(variant.price);
+  const totalStock = protectorInventoryRows().filter(row => row.productId === product.id).reduce((sum, row) => sum + row.stock, 0);
   const remaining = variant ? Math.max(0, variant.stock - (getCart()[variant.id] || 0)) : 0;
-  return `<article class="card"><div class="card-media">${productArt(product)}</div><div class="card-body"><h3 class="card-title">${escapeHTML(product.title)}</h3><p class="card-desc">${escapeHTML(product.description)}</p><div class="card-footer">${variant ? `<span class="card-price">${formatPrice(variant.price)}</span><span class="card-detail">${remaining ? remaining + ' available' : 'All available units in your bag'}</span>` : `<span class="card-detail">${escapeHTML(product.type)} finish</span>`}</div>${variant ? `<p class="fit-note">For ${escapeHTML(variant.brand)} ${escapeHTML(variant.model)}</p>` : ''}<button class="btn btn-add" ${variant ? `data-sku="${escapeHTML(variant.id)}"` : ''} ${!remaining ? 'disabled' : ''}>${variant ? remaining ? 'Add to bag' : 'In your bag' : 'Select a phone model'}</button></div></article>`;
+  return `<article class="card"><div class="card-media">${productArt(product)}</div><div class="card-body"><h3 class="card-title">${escapeHTML(product.title)}</h3><p class="card-desc">${escapeHTML(product.description)}</p><div class="card-footer">${variant ? `<span class="card-price">${priced ? formatPrice(variant.price) : "Price to be confirmed"}</span><span class="card-detail">${remaining ? remaining + ' available' : 'All available units in your bag'}</span>` : `<span class="card-detail">${totalStock} available across models</span>`}</div>${variant ? `<p class="fit-note">For ${escapeHTML(variant.brand)} ${escapeHTML(variant.model)}</p>` : ''}<button class="btn btn-add" ${variant ? `data-sku="${escapeHTML(variant.id)}"` : ''} ${!remaining || !priced ? 'disabled' : ''}>${variant ? !priced ? 'Price coming soon' : remaining ? 'Add to bag' : 'In your bag' : 'Select a phone model'}</button></div></article>`;
 }
 function renderProtectors() {
   const preview = selectedBrand === 'All brands';
@@ -58,10 +60,8 @@ modelButtons.addEventListener('click', event => {
   selectedFinish = 'All finishes';
   renderModels(); renderFinishes(); renderProtectors();
 });
-finishFilters.addEventListener('click', event => {
-  const button = event.target.closest('[data-finish]');
-  if (!button) return;
-  selectedFinish = button.dataset.finish;
+finishFilters.addEventListener('change', event => {
+  selectedFinish = event.target.value;
   renderFinishes(); renderProtectors();
 });
 protectorGrid.addEventListener('click', event => {
