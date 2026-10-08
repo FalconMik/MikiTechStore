@@ -17,33 +17,36 @@ function renderProtectorBrands() {
 function renderModels() {
   modelSection.hidden = selectedBrand === 'All brands';
   const models = protectorModels(selectedBrand);
-  modelButtons.innerHTML = models.map(model => `<button class="model-pill" data-model="${escapeHTML(model)}" aria-pressed="${model === selectedModel}">${escapeHTML(model)}</button>`).join('');
+  modelButtons.innerHTML = `<button class="model-pill" data-model="" aria-pressed="${selectedModel === ''}">All</button>` + models.map(model => `<button class="model-pill" data-model="${escapeHTML(model)}" aria-pressed="${model === selectedModel}">${escapeHTML(model)}</button>`).join('');
   modelButtons.setAttribute('aria-label', `${selectedBrand} phone models`);
-  modelStatus.textContent = models.length ? selectedModel ? `${selectedBrand} ${selectedModel}` : 'Select your phone model.' : `No available ${selectedBrand} models listed yet.`;
+  modelStatus.textContent = models.length ? selectedModel ? `${selectedBrand} ${selectedModel}` : `All ${selectedBrand} models` : `No available ${selectedBrand} models listed yet.`;
 }
 function renderFinishes() {
   finishFilters.innerHTML = ['All finishes', ...PROTECTOR_FINISHES].map(finish => `<option value="${finish}" ${finish === selectedFinish ? "selected" : ""}>${finish}</option>`).join('');
 }
 function protectorCard(product, variant) {
-  const priced = variant && Number.isFinite(variant.price);
-  const totalStock = protectorInventoryRows().filter(row => row.productId === product.id).reduce((sum, row) => sum + row.stock, 0);
-  const remaining = variant ? Math.max(0, variant.stock - (getCart()[variant.id] || 0)) : 0;
-  return `<article class="card"><div class="card-media">${productArt(product)}</div><div class="card-body"><h3 class="card-title">${escapeHTML(product.title)}</h3><p class="card-desc">${escapeHTML(product.description)}</p><div class="card-footer">${variant ? `<span class="card-price">${priced ? formatPrice(variant.price) : "Price to be confirmed"}</span><span class="card-detail">${remaining ? remaining + ' available' : 'All available units in your bag'}</span>` : `<span class="card-detail">${totalStock} available across models</span>`}</div>${variant ? `<p class="fit-note">For ${escapeHTML(variant.brand)} ${escapeHTML(variant.model)}</p>` : ''}<button class="btn btn-add" ${variant ? `data-sku="${escapeHTML(variant.id)}"` : ''} ${!remaining || !priced ? 'disabled' : ''}>${variant ? !priced ? 'Price coming soon' : remaining ? 'Add to bag' : 'In your bag' : 'Select a phone model'}</button></div></article>`;
+  const remaining = Math.max(0, variant.stock - (getCart()[variant.id] || 0));
+  return `<article class="card"><div class="card-media">${productArt(product)}</div><div class="card-body"><h3 class="card-title">${escapeHTML(product.title)}</h3><p class="card-desc">For ${escapeHTML(variant.model)}</p><div class="card-footer"><span class="card-detail">${remaining ? remaining + ' available' : 'All available units in your bag'}</span></div><button class="btn btn-add" data-sku="${escapeHTML(variant.id)}" ${!remaining ? 'disabled' : ''}>${remaining ? 'Add to bag' : 'In your bag'}</button></div></article>`;
 }
 function renderProtectors() {
-  const preview = selectedBrand === 'All brands';
-  const rows = protectorInventoryRows().filter(row => row.brand === selectedBrand && row.model === selectedModel);
-  const items = preview ? PROTECTOR_CATALOG.map(product => ({product, variant: null})) : rows.map(row => ({product: PROTECTOR_CATALOG.find(product => product.id === row.productId), variant: protectorVariant(row)}));
-  const shown = items.filter(item => selectedFinish === 'All finishes' || item.product.type === selectedFinish);
-  protectorGrid.innerHTML = PROTECTOR_FINISHES.filter(finish => selectedFinish === 'All finishes' || finish === selectedFinish).map(finish => {
-    const group = shown.filter(item => item.product.type === finish);
-    if (!group.length) return '';
-    return `<section class="protector-group" aria-label="${finish} protectors"><h2 class="finish-heading">${finish}<span>${group.length}</span></h2><div class="product-grid">${group.map(item => protectorCard(item.product, item.variant)).join('')}</div></section>`;
+  const allBrands = selectedBrand === 'All brands';
+  const rows = protectorInventoryRows().filter(row => (allBrands || row.brand === selectedBrand) && (!selectedModel || row.model === selectedModel));
+  const shown = rows.map(row => ({product: PROTECTOR_CATALOG.find(product => product.id === row.productId), variant: protectorVariant(row)})).filter(item => selectedFinish === 'All finishes' || item.product.type === selectedFinish);
+  const brands = allBrands ? protectorBrands().filter(brand => brand !== 'All brands') : [selectedBrand];
+  protectorGrid.innerHTML = brands.map(brand => {
+    const brandItems = shown.filter(item => item.variant.brand === brand);
+    if (!brandItems.length) return '';
+    const groups = PROTECTOR_FINISHES.map(finish => {
+      const group = brandItems.filter(item => item.product.type === finish);
+      if (!group.length) return '';
+      return `<section class="protector-group" aria-label="${finish} protectors"><${allBrands ? 'h3' : 'h2'} class="finish-heading">${finish}<span>${group.length}</span></${allBrands ? 'h3' : 'h2'}><div class="product-grid">${group.map(item => protectorCard(item.product, item.variant)).join('')}</div></section>`;
+    }).join('');
+    return allBrands ? `<section class="protector-brand-group" aria-label="${escapeHTML(brand)} protectors"><h2 class="brand-heading">${escapeHTML(brand)}</h2>${groups}</section>` : groups;
   }).join('');
-  document.getElementById('productCount').textContent = preview ? `${shown.length} protector types` : `${shown.length} available protectors`;
+  document.getElementById('productCount').textContent = `${shown.length} available protectors`;
   const empty = document.getElementById('emptyState');
   empty.hidden = shown.length > 0;
-  if (!empty.hidden) empty.textContent = !preview && !selectedModel ? protectorModels(selectedBrand).length ? 'Select a phone model to see its available protectors.' : `No available ${selectedBrand} models listed yet.` : `No ${selectedFinish === 'All finishes' ? '' : selectedFinish.toLowerCase() + ' '}protectors listed${selectedModel ? ' for ' + selectedModel : ''}.`;
+  if (!empty.hidden) empty.textContent = `No ${selectedFinish === 'All finishes' ? '' : selectedFinish.toLowerCase() + ' '}protectors available${selectedModel ? ' for ' + selectedModel : allBrands ? '' : ' for ' + selectedBrand}.`;
 }
 brandFilters.addEventListener('click', event => {
   const button = event.target.closest('[data-brand]');

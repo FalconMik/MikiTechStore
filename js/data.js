@@ -14,39 +14,21 @@ const CURRENCY = "KSh";
 
 const PRODUCTS = [
   // ---------------- SMARTPHONES ----------------
-  // Set brand: "Samsung", "Tecno", or "Redmi" on each real phone to enable brand filtering.
-  // The existing sample phones are unbranded and appear under All types.
+  // Prices remain unset until supplied by the owner.
   {
-    id: "sp-01",
-    category: "smartphones",
-    title: "Aurora X12 Pro",
-    description: "6.7\" AMOLED, 256GB storage, triple camera, 5G ready.",
-    price: 54999,
-    image: "https://placehold.co/600x600/0b1220/7ff0ff?text=Aurora+X12"
+    id: "phone-redmi-15c", category: "smartphones", brand: "Redmi",
+    title: "Redmi 15C", description: "Midnight Black · 256GB storage · 8GB RAM + 8GB extended RAM.",
+    price: null, image: "assets/phones/studio/redmi-15c-studio.png"
   },
   {
-    id: "sp-02",
-    category: "smartphones",
-    title: "Nova S8",
-    description: "Compact 6.1\" display, 128GB, all-day battery life.",
-    price: 32999,
-    image: "https://placehold.co/600x600/0b1220/7ff0ff?text=Nova+S8"
+    id: "phone-tecno-spark30c", category: "smartphones", brand: "Tecno",
+    title: "Tecno Spark 30C", description: "4GB RAM · 128GB storage.",
+    price: null, image: "assets/phones/studio/tecno-spark30c-studio.png"
   },
   {
-    id: "sp-03",
-    category: "smartphones",
-    title: "Pulse Lite 4",
-    description: "Budget-friendly, 4GB RAM, 64GB storage, dual SIM.",
-    price: 14999,
-    image: "https://placehold.co/600x600/0b1220/7ff0ff?text=Pulse+Lite+4"
-  },
-  {
-    id: "sp-04",
-    category: "smartphones",
-    title: "Orbit Z Fold",
-    description: "Foldable 7.6\" screen, 512GB, flagship performance.",
-    price: 129999,
-    image: "https://placehold.co/600x600/0b1220/7ff0ff?text=Orbit+Z+Fold"
+    id: "phone-samsung-a07", category: "smartphones", brand: "Samsung",
+    title: "Samsung Galaxy A07", description: "4GB RAM · 128GB storage.",
+    price: null, image: "assets/phones/studio/samsung-a07-studio.png"
   },
 
   // ---------------- PROTECTORS ----------------

@@ -22,7 +22,7 @@ function saveCart(cart) {
 function addToCart(productId, qty = 1, phone = "") {
   const cart = getCart();
   const product = findProduct(productId);
-  if (product && product.price === null) return;
+  if (!product) return;
   if (product && Number.isInteger(product.stock) && (cart[productId] || 0) + qty > product.stock) return;
   const key = phone ? productId + "::" + encodeURIComponent(phone) : productId;
   cart[key] = (cart[key] || 0) + qty;
@@ -68,7 +68,7 @@ function getCartLines() {
       const product = findProduct(id);
       if (!product) return null;
       const phone = id.includes("::") ? decodeURIComponent(id.split("::")[1]) : (product.model ? product.brand + " " + product.model : "");
-      return { id, product, phone, qty, lineTotal: product.price * qty };
+      return { id, product, phone, qty, lineTotal: Number.isFinite(product.price) ? product.price * qty : null };
     })
     .filter(Boolean);
 }

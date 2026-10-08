@@ -30,7 +30,7 @@ function renderCart() {
       <div class="cart-item-body">
         <h3 class="cart-item-title">${escapeHTML(line.product.title)}</h3>
         ${line.phone ? `<p class="fit-note">${escapeHTML(line.phone)}${line.product.model ? "" : " · Fit to be confirmed"}</p>` : ""}
-        <span class="cart-item-price">${formatPrice(line.product.price)} each</span>
+        ${Number.isFinite(line.product.price) ? `<span class="cart-item-price">${formatPrice(line.product.price)} each</span>` : ''}
         <div class="qty-stepper">
           <button class="qty-btn" data-action="dec" aria-label="Decrease quantity">−</button>
           <span class="qty-value">${line.qty}</span>
@@ -38,7 +38,7 @@ function renderCart() {
         </div>
       </div>
       <div class="cart-item-right">
-        <span class="cart-item-total">${formatPrice(line.lineTotal)}</span>
+        ${line.lineTotal !== null ? `<span class="cart-item-total">${formatPrice(line.lineTotal)}</span>` : ''}
         <button class="remove-btn" data-action="remove" aria-label="Remove item">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
         </button>
@@ -52,7 +52,7 @@ function renderCart() {
 
   const count = lines.reduce((s, l) => s + l.qty, 0);
   summaryCount.textContent = count;
-  summaryTotal.textContent = formatPrice(getCartTotal());
+  summaryTotal.textContent = lines.some(line => line.lineTotal === null) ? 'Quote via WhatsApp' : formatPrice(getCartTotal());
 }
 
 cartList.addEventListener("click", e => {
@@ -78,9 +78,9 @@ function buildWhatsAppMessage() {
   const lines = getCartLines();
   const header = "Hi Miki Tech Store! I'd like to order:";
   const itemLines = lines.map(
-    (l, i) => `${i + 1}. ${l.product.title}${l.phone ? " (" + l.phone + (l.product.model ? ")" : "; confirm fit)") : ""} x${l.qty} — ${formatPrice(l.lineTotal)}`
+    (l, i) => `${i + 1}. ${l.product.title}${l.phone ? " (" + l.phone + (l.product.model ? ")" : "; confirm fit)") : ""} x${l.qty}${l.lineTotal !== null ? ' — ' + formatPrice(l.lineTotal) : ''}`
   );
-  const total = `\nTotal: ${formatPrice(getCartTotal())}`;
+  const total = lines.some(line => line.lineTotal === null) ? '\nPlease send me a price quote for this order.' : `\nTotal: ${formatPrice(getCartTotal())}`;
   return [header, "", ...itemLines, total].join("\n");
 }
 

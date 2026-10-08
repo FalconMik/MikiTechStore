@@ -119,10 +119,10 @@ const PROTECTOR_CATALOG = [
   {id: 'matte-glass', category: 'protectors', type: 'Matte', title: 'Matte Glass Screen Protector',
    description: 'The yellow-pack matte glass screen protector.',
    image: 'assets/ProtectorTypes/studio/matte-glass-studio.png'},
-  {id: 'full-cover-glass', category: 'protectors', type: 'Clear', title: 'Full-Cover Tempered Glass',
+  {id: 'full-cover-glass', category: 'protectors', type: 'Clear', title: 'Tempered Glass',
    description: 'Clear full-cover screen protection in the purple and gold pack.',
    image: 'assets/ProtectorTypes/studio/full-cover-glass-studio.png'},
-  {id: 'ok-solid-glass', category: 'protectors', type: 'Clear', title: 'OK SOLID Tempered Glass',
+  {id: 'ok-solid-glass', category: 'protectors', type: 'Clear', title: 'Tempered Glass',
    description: 'Clear tempered glass screen protection in the blue gorilla pack.',
    image: 'assets/ProtectorTypes/studio/tempered-glass-studio.png'},
   {id: 'star-clear', category: 'protectors', type: 'Clear', title: 'Star Clear Screen Protector',
@@ -133,7 +133,7 @@ const PROTECTOR_CATALOG = [
    description: 'Privacy screen protection.', image: ''}
 ];
 // The privacy product uses an illustration until its photo is supplied.
-const PROTECTOR_FINISHES = ['Matte', 'Clear', 'Privacy'];
+const PROTECTOR_FINISHES = ['Clear', 'Matte', 'Privacy'];
 function protectorInventoryRows() {
   return PROTECTOR_INVENTORY.filter(row =>
     typeof row.id === 'string' && /^[a-zA-Z0-9_-]+$/.test(row.id) &&

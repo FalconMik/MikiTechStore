@@ -1,6 +1,6 @@
 # Protector inventory
 
-Stock entered from the owner’s list on 6 October 2026. Repeated entries are combined. There are 27 confirmed pieces. Prices are unset as requested; availability is visible and ordering is disabled until prices are supplied.
+Stock entered from the owner’s list on 6 October 2026. Repeated entries are combined. There are 27 confirmed pieces. Prices remain unset. Availability and Add to bag are shown for model-specific products; WhatsApp orders request a quote instead of showing unpriced products as free. Clear appears before Matte and Privacy.
 
 | Protector | Phone | Available |
 | --- | --- | ---: |

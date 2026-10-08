@@ -541,3 +541,6 @@ body[data-category="protectors"] .protector-group > .product-grid {
 body[data-category="protectors"] .card-media img[src*="ceramic-film-matte-studio"] {
   transform: scaleX(0.92);
 }
+
+.protector-brand-group + .protector-brand-group { margin-top: 48px; }
+.brand-heading { margin: 0 0 22px; font-size: 28px; font-weight: 700; }
