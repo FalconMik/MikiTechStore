@@ -119,20 +119,19 @@ const PROTECTOR_CATALOG = [
   {id: 'matte-glass', category: 'protectors', type: 'Matte', title: 'Matte Glass Screen Protector',
    description: 'The yellow-pack matte glass screen protector.',
    image: 'assets/ProtectorTypes/studio/matte-glass-studio.png'},
-  {id: 'full-cover-glass', category: 'protectors', type: 'Clear', title: 'Tempered Glass',
+  {id: 'full-cover-glass', category: 'protectors', type: 'Clear', title: 'Tempered',
    description: 'Clear full-cover screen protection in the purple and gold pack.',
    image: 'assets/ProtectorTypes/studio/full-cover-glass-studio.png'},
-  {id: 'ok-solid-glass', category: 'protectors', type: 'Clear', title: 'Tempered Glass',
+  {id: 'ok-solid-glass', category: 'protectors', type: 'Clear', title: 'Tempered',
    description: 'Clear tempered glass screen protection in the blue gorilla pack.',
    image: 'assets/ProtectorTypes/studio/tempered-glass-studio.png'},
-  {id: 'star-clear', category: 'protectors', type: 'Clear', title: 'Star Clear Screen Protector',
-   description: 'Clear screen protection.', image: ''},
-  {id: 'esd-full-glue', category: 'protectors', type: 'Clear', title: 'OG ESD Full-Glue Protector',
-   description: 'Clear full-glue screen protector.', image: ''},
-  {id: 'privacy-glass', category: 'protectors', type: 'Privacy', title: 'Privacy Screen Protector',
-   description: 'Privacy screen protection.', image: ''}
+  {id: 'star-clear', category: 'protectors', type: 'Clear', title: 'Tempered',
+   description: 'Clear tempered glass screen protection.', image: 'assets/ProtectorTypes/studio/star-tempered-studio.png'},
+  {id: 'esd-full-glue', category: 'protectors', type: 'Clear', title: 'Tempered',
+   description: 'Clear full-glue tempered glass.', image: 'assets/ProtectorTypes/studio/esd-tempered-studio.png'},
+  {id: 'privacy-glass', category: 'protectors', type: 'Privacy', title: 'Privacy',
+   description: 'Privacy screen protection.', image: 'assets/ProtectorTypes/studio/privacy-studio.png'}
 ];
-// The privacy product uses an illustration until its photo is supplied.
 const PROTECTOR_FINISHES = ['Clear', 'Matte', 'Privacy'];
 function protectorInventoryRows() {
   return PROTECTOR_INVENTORY.filter(row =>

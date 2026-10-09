@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MtS · Covers</title>
-<meta name="description" content="MtS — From clear and minimal to extra protection. Find a cover that fits your everyday.">
+<meta name="description" content="MtS — Plastic, MagSafe and silicone covers for your phone.">
 <link rel="icon" href="assets/logo.png">
-<link rel="stylesheet" href="css/style.css?v=5">
+<link rel="stylesheet" href="css/style.css?v=10">
 </head>
 <body data-category="covers">
 <header class="site-header">
@@ -21,27 +21,29 @@
 </div>
 </header>
 <main class="shop-main">
-<section class="hero">
-<div>
-<div class="wordmark">Mt<span>S</span>
-</div>
-<p class="eyebrow">A LITTLE STYLE. A LOT OF PROTECTION.</p>
-<h1>Make your phone your own.</h1>
-<p class="hero-description">From clear and minimal to extra protection. Find a cover that fits your everyday.</p>
-</div>
-<aside class="note">
-<strong>Your phone. Your style.</strong>Choose a finish you love. We’ll confirm the right fit for your phone when you order.</aside>
+<section class="cover-heading" aria-labelledby="coverTitle">
+<div class="wordmark" aria-label="MtS">Mt<span>S</span></div>
+<h1 id="coverTitle">Make your phone your own.</h1>
 </section>
 <section class="catalog" aria-label="Covers">
 <div class="toolbar">
-<div class="filter-tabs" id="typeFilters" aria-label="Product types">
+<div class="filter-tabs" id="typeFilters" aria-label="Phone brands">
 </div>
 <span class="count" id="productCount" role="status">
 </span>
 </div>
-<div class="product-grid" id="productGrid">
+<section class="model-section" id="modelSection" aria-label="Phone models" hidden>
+<div class="model-buttons" id="modelButtons"></div>
+<p class="model-status" id="modelStatus" role="status"></p>
+</section>
+<div class="finish-picker">
+<label for="finishFilters">COVER TYPE</label>
+<select id="finishFilters"></select>
 </div>
-<div class="empty-state" id="emptyState" hidden>No matching products.<p>Try another type.</p>
+<p class="model-status">Model-specific studio illustrations; actual finish may vary.</p>
+<div class="cover-results" id="productGrid">
+</div>
+<div class="empty-state" id="emptyState" hidden>No matching products.<p>Try another brand or select All brands.</p>
 </div>
 </section>
 <noscript>
@@ -56,11 +58,12 @@
 </footer>
 <script src="js/data.js?v=2">
 </script>
+<script src="js/cover-inventory.js?v=4"></script>
 <script src="js/art.js">
 </script>
-<script src="js/cart.js?v=7">
+<script src="js/cart.js?v=8">
 </script>
-<script src="js/home.js?v=4">
+<script src="js/covers.js?v=1">
 </script>
 </body>
 </html>

@@ -58,6 +58,10 @@ function findProduct(productId) {
     const row = PROTECTOR_INVENTORY.find(row => "protector-stock-" + row.id === baseId);
     return row ? protectorVariant(row) : null;
   }
+  if (baseId.startsWith("cover-stock-") && typeof COVER_INVENTORY !== "undefined") {
+    const row = COVER_INVENTORY.find(row => "cover-stock-" + row.id === baseId);
+    return row ? coverVariant(row) : null;
+  }
   return PRODUCTS.find(p => p.id === baseId);
 }
 

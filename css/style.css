@@ -544,3 +544,32 @@ body[data-category="protectors"] .card-media img[src*="ceramic-film-matte-studio
 
 .protector-brand-group + .protector-brand-group { margin-top: 48px; }
 .brand-heading { margin: 0 0 22px; font-size: 28px; font-weight: 700; }
+
+.finish-filters { margin-bottom: 26px; }
+.cover-group { margin-bottom: 34px; }
+.finish-heading { font-size: 24px; margin: 0 0 18px; }
+.finish-heading span { font-size: 13px; color: var(--muted); margin-left: 12px; font-weight: normal; }
+body[data-category="covers"] .card-media { height: 300px; background: #f8f8f5; }
+body[data-category="covers"] .card-media img { object-fit: contain; }
+
+.cover-heading { margin-bottom: 34px; }
+.cover-heading .wordmark { margin-bottom: 22px; }
+.cover-heading h1 { max-width: 850px; margin-bottom: 0; }
+.finish-picker { width: min(280px, 100%); margin-bottom: 28px; }
+.finish-picker label { font-size: 11px; letter-spacing: 1.2px; }
+.finish-picker select { background: white; }
+
+body[data-category="covers"] .cover-group > .product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 520px) {
+  body[data-category="covers"] .cover-group > .product-grid { gap: 12px; }
+  body[data-category="covers"] .card-media { height: 190px; }
+  body[data-category="covers"] .card-body { padding: 14px; }
+  body[data-category="covers"] .card-title { font-size: 16px; }
+  body[data-category="covers"] .card-footer { flex-wrap: wrap; }
+  body[data-category="covers"] .btn-add { padding: 12px 8px; font-size: 12px; }
+}
+
+
+.cover-brand-group + .cover-brand-group { margin-top: 48px; }

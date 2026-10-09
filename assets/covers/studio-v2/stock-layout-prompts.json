@@ -1,0 +1,26 @@
+[
+  {
+    "id": "redmi-14c-plastic-black",
+    "prompt": "Use case: product-mockup. Make one polished photorealistic studio product image of the EMPTY protective plastic phone case shown on the left of the owner's photo, in black. Match actual stock case: FOUR distinct equally sized circular open camera/flash holes in DIAMOND formation near upper centre: one at top, one left, one right, one bottom. Solid case material BETWEEN the four circles. Subtle circular raised camera protection area around this group is fine but MUST NOT be a single big circular hole. Holes show white background, no phone or lenses. Remove packaging, stickers, text, barcode, foam inserts, reflections of photographer and shelf. Satin glossy smooth plastic, rounded corners, thin sidewalls. Upright centred rear exterior view nearly straight on, slight right side visible, square white seamless studio background, soft diffused light, faint contact shadow. One case only filling80% canvas height, approximately40% width. No branding or text. Exactly four circular holes, top/left/right/bottom.",
+    "referenced_image_paths": [
+      "C:/Users/mikias/AppData/Local/Temp/codex-clipboard-4fd34ad5-a674-4fa2-b9f7-ef04a76a50ec.jpg"
+    ],
+    "transparent_background": false
+  },
+  {
+    "id": "tecno-spark-30c-plastic-black",
+    "prompt": "Use case: product-mockup. Make one polished photorealistic studio product image of the EMPTY protective plastic phone case shown on the right of the owner's photo, in black. Match actual stock case: FOUR distinct equally sized circular open camera/flash holes in DIAMOND formation near upper centre: one at top, one left, one right, one bottom. Solid case material BETWEEN the four circles. Subtle circular raised camera protection area around this group is fine but MUST NOT be a single big circular hole. Holes show white background, no phone or lenses. Remove packaging, stickers, text, barcode, foam inserts, reflections of photographer and shelf. Satin glossy smooth plastic, rounded corners, thin sidewalls. Upright centred rear exterior view nearly straight on, slight right side visible, square white seamless studio background, soft diffused light, faint contact shadow. One case only filling80% canvas height, approximately40% width. No branding or text. Exactly four circular holes, top/left/right/bottom.",
+    "referenced_image_paths": [
+      "C:/Users/mikias/AppData/Local/Temp/codex-clipboard-4fd34ad5-a674-4fa2-b9f7-ef04a76a50ec.jpg"
+    ],
+    "transparent_background": false
+  },
+  {
+    "id": "tecno-spark-30c-plastic-blue",
+    "prompt": "Use case: product-mockup. Make one polished photorealistic studio product image of the EMPTY protective plastic phone case shown on the right of the owner's photo, in deep navy blue. Match actual stock case: FOUR distinct equally sized circular open camera/flash holes in DIAMOND formation near upper centre: one at top, one left, one right, one bottom. Solid case material BETWEEN the four circles. Subtle circular raised camera protection area around this group is fine but MUST NOT be a single big circular hole. Holes show white background, no phone or lenses. Remove packaging, stickers, text, barcode, foam inserts, reflections of photographer and shelf. Satin glossy smooth plastic, rounded corners, thin sidewalls. Upright centred rear exterior view nearly straight on, slight right side visible, square white seamless studio background, soft diffused light, faint contact shadow. One case only filling80% canvas height, approximately40% width. No branding or text. Exactly four circular holes, top/left/right/bottom.",
+    "referenced_image_paths": [
+      "C:/Users/mikias/AppData/Local/Temp/codex-clipboard-4fd34ad5-a674-4fa2-b9f7-ef04a76a50ec.jpg"
+    ],
+    "transparent_background": false
+  }
+]
